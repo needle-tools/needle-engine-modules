@@ -1,0 +1,12 @@
+{
+  "name": "@needle-tools/drive",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "needle.tiny.engine": ">= 1.0.0-pre",
+    "three": "^0.130"
+  },
+  "devDependencies": {
+    "needle.tiny.engine": "../../../package~",
+    "three": "../../../../modules/three"
+  }
+}
