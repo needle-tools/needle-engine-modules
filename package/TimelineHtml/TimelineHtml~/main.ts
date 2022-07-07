@@ -18,6 +18,7 @@ declare type CssModel = {
 class CssTrack extends TrackHandler {
 
     onEnable() {
+        if(this._lastActive) this.onUnapply(this._lastActive.asset);
         this._lastActive = undefined;
     }
 
