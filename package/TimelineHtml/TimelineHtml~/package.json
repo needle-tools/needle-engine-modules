@@ -1,0 +1,14 @@
+{
+  "name": "@needle-tools/needle.engine.timeline-html",
+  "version": "1.0.0",
+  "dependencies": {},
+  "main": "main.ts",
+  "peerDependencies": {
+    "needle.tiny.engine": ">= 1.0.0-pre",
+    "three": "^0.130"
+  },
+  "devDependencies": {
+    "needle.tiny.engine": "../../../../../projects/Needle_Website/Library/PackageCache/com.needle.tiny.engine@1.12.2-pre/package~",
+    "three": "../../../../../projects/Needle_Website/Library/PackageCache/com.needle.tiny.engine@1.12.2-pre/package~/node_modules/three"
+  }
+}
