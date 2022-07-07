@@ -18,7 +18,6 @@ declare type CssModel = {
 class CssTrack extends TrackHandler {
 
     onEnable() {
-        console.log(this.track);
         this._lastActive = undefined;
     }
 
