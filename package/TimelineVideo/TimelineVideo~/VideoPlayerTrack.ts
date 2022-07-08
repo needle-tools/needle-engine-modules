@@ -2,6 +2,10 @@ import { PlayableDirector } from "needle.tiny.engine/engine-components/timeline/
 import { TrackModel } from "needle.tiny.engine/engine-components/timeline/TimelineModels";
 import { TrackHandler } from "needle.tiny.engine/engine-components/timeline/TimelineTracks";
 import { VideoPlayer } from "needle.tiny.engine/engine-components/VideoPlayer"
+import { getParam } from "needle.tiny.engine/engine/engine_utils";
+
+
+const debug = getParam("debugvideotrack");
 
 // Import this package in your main.ts file
 
@@ -44,9 +48,10 @@ class VideoTrack extends TrackHandler {
                 if (this.director.context.time.time - this._lastTimeSet > .3) {
                     const t = this.getClipTime(time, clip);
                     const diff = Math.abs(t - this.output.currentTime);
-                    if (diff > .1 && this.output.isPlaying) {
+                    if (diff > .3 && this.output.isPlaying) {
+                        if (debug)
+                            console.log("Sync video time", diff, t);
                         this._lastTimeSet = this.director.context.time.time;
-                        // console.log("SET TIME", t);
                         this.output.currentTime = t;
                     }
                 }
