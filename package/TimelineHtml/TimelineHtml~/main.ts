@@ -18,7 +18,12 @@ declare type CssModel = {
 class CssTrack extends TrackHandler {
 
     onEnable() {
-        if(this._lastActive) this.onUnapply(this._lastActive.asset);
+        if (this._lastActive) this.onUnapply(this._lastActive.asset);
+        this._lastActive = undefined;
+    }
+
+    onDisable(){
+        if (this._lastActive) this.onUnapply(this._lastActive.asset);
         this._lastActive = undefined;
     }
 
@@ -45,11 +50,12 @@ class CssTrack extends TrackHandler {
     onApply(model: CssModel) {
         if (!model) return;
         if (!model.class) return;
-        const element = document.querySelector(model.query);
-        if (element) {
+        const elements = document.querySelectorAll(model.query);
+        if (elements) {
             if (debug)
-                console.log("ADD", element, model.class);
-            element.classList.add(model.class);
+                console.log("ADD CLASS", model.class, elements);
+            for(let i = 0; i < elements.length; i++)
+                elements[i].classList.add(model.class);
         }
         else if (debug) console.warn("could not find " + model.query, model.class)
     }
@@ -57,11 +63,12 @@ class CssTrack extends TrackHandler {
     onUnapply(model: CssModel) {
         if (!model) return;
         if (!model.class) return;
-        const element = document.querySelector(model.query);
-        if (element) {
+        const elements = document.querySelectorAll(model.query);
+        if (elements?.length) {
             if (debug)
-                console.log("REMOVE", element, model.class);
-            element.classList.remove(model.class);
+                console.log("REMOVE CLASS", model.class, elements);
+            for(let i = 0; i < elements.length; i++)
+                elements[i].classList.remove(model.class);
         }
         else if (debug) console.warn("could not find " + model.query, model.class)
     }
