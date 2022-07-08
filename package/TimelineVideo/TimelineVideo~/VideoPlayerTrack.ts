@@ -37,7 +37,9 @@ class VideoTrack extends TrackHandler {
                 const clipModel = clip.asset as VideoClipModel;
                 if (clipModel.clip) {
                     this.output.setClipURL(clipModel.clip);
+                    if (!this.output.isPlaying) this.output.play();
                 }
+
 
                 if (this.director.context.time.time - this._lastTimeSet > .3) {
                     const t = this.getClipTime(time, clip);
