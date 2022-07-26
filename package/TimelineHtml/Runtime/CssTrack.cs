@@ -3,20 +3,24 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-[Serializable]
-[TrackClipType(typeof(CssPlayableAsset))]
-[TrackColor(.12f, 0.3f, 0.9f)]
-public class CssTrack : TrackAsset
+namespace Needle.Timeline.Html
 {
-	public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
+	[Serializable]
+	[TrackClipType(typeof(CssPlayableAsset))]
+	[TrackColor(.12f, 0.3f, 0.9f)]
+	public class CssTrack : TrackAsset
 	{
-		foreach (var clip in GetClips())
+		public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
 		{
-			if (clip.asset is CssPlayableAsset css)
+			foreach (var clip in GetClips())
 			{
-				clip.displayName = css.Query + " × " + css.Class;
+				if (clip.asset is CssPlayableAsset css)
+				{
+					clip.displayName = css.Query + " × " + css.Class;
+				}
 			}
+			return base.CreateTrackMixer(graph, go, inputCount);
 		}
-		return base.CreateTrackMixer(graph, go, inputCount);
 	}
+
 }

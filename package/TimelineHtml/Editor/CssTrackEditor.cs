@@ -4,9 +4,8 @@ using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Timeline;
 
-namespace TimelineHtml.Editor
+namespace Needle.Timeline.Html
 {
-
 	[CustomTimelineEditor(typeof(CssTrack))]
 	[UsedImplicitly]
 	public class CssTrackEditor : TrackEditor
