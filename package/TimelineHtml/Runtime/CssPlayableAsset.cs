@@ -9,8 +9,12 @@ namespace Needle.Timeline.Html
 {
 	public class CssPlayableAsset : PlayableAsset, ITimelineClipAsset
 	{
+		[SerializeField, Header("Clip Identifier")]
+		public string Id;
+		[Header("Dom Query")]
 		[SerializeField]
 		public string Query;
+		[Header("CSS Properties")]
 		[SerializeField]
 		public string Class;
 

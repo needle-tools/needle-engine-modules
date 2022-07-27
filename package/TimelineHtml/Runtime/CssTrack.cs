@@ -16,7 +16,7 @@ namespace Needle.Timeline.Html
 			{
 				if (clip.asset is CssPlayableAsset css)
 				{
-					clip.displayName = css.Query + " × " + css.Class;
+					clip.displayName = css.Query + " × " + css.Class + "; " + css.Id;
 				}
 			}
 			return base.CreateTrackMixer(graph, go, inputCount);

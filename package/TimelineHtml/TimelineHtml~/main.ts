@@ -11,6 +11,7 @@ PlayableDirector.registerCreateTrack("CssTrack", (_dir, _track: TrackModel) => {
 
 
 declare type CssModel = {
+    id: string;
     query: string;
     class: string;
 }
@@ -31,7 +32,7 @@ class CssModelView {
         });
     }
 
-    onEnable(){
+    onEnable() {
         this._elements.forEach(el => {
             el.classList.remove(this.model.class);
         });
@@ -65,12 +66,22 @@ class CssModelView {
 class CssTrack extends TrackHandler {
 
     private _modelViews: CssModelView[] = [];
+    private _viewsMaps: Map<string, CssModelView> = new Map();
+
+    constructor() {
+        super();
+    }
 
     onEnable() {
-        if (this._modelViews.length != this.track.clips.length)
+        if (this._modelViews.length != this.track.clips.length) {
             this._modelViews.length = 0;
+            this._viewsMaps.clear();
+        }
         for (const clip of this.track.clips) {
-            this._modelViews.push(new CssModelView(clip));
+            const view = new CssModelView(clip);
+            this._modelViews.push(view);
+            if (clip?.asset?.id?.length)
+                this._viewsMaps.set(clip.asset.id, view);
         }
         this._modelViews.forEach(mv => mv.onEnable());
     }
@@ -85,4 +96,12 @@ class CssTrack extends TrackHandler {
         }
     }
 
+    /* must stay in sync with website.ScrollNavigation */
+    getScrollTimeForId(id: string) {
+        const mv = this._viewsMaps.get(id);
+        if (mv) {
+            return mv.clip.start;
+        }
+        return -1;
+    }
 }
