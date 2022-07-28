@@ -68,6 +68,8 @@ class CssTrack extends TrackHandler {
     private _modelViews: CssModelView[] = [];
     private _viewsMaps: Map<string, CssModelView> = new Map();
 
+    get isCssTrack() { return true; }
+
     constructor() {
         super();
     }
@@ -77,7 +79,11 @@ class CssTrack extends TrackHandler {
             this._modelViews.length = 0;
             this._viewsMaps.clear();
         }
+        let index = 0;
         for (const clip of this.track.clips) {
+            if(!clip.asset.id){
+                clip.asset.id = "clip-" + index++;
+            }
             const view = new CssModelView(clip);
             this._modelViews.push(view);
             if (clip?.asset?.id?.length)
