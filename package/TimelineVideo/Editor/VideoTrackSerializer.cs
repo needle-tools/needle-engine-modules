@@ -1,4 +1,4 @@
-﻿using Needle.Tiny.Timeline;
+﻿using Needle.Engine.Timeline;
 using UnityEditor;
 using UnityEngine.Video;
 
@@ -9,6 +9,7 @@ namespace Needle.TimelineVideo.Editor
 		[InitializeOnLoadMethod]
 		private static void Init()
 		{
+			TimelineSerializer.CreateModel -= OnCreateModel;
 			TimelineSerializer.CreateModel += OnCreateModel;
 		}
 
