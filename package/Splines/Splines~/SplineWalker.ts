@@ -1,9 +1,9 @@
-import { Behaviour, GameObject } from "needle.tiny.engine/engine-components/Component";
-import { Mathf } from "needle.tiny.engine/engine/engine_math";
-import { serializeable } from "needle.tiny.engine/engine/engine_serialization_decorator";
+import { Behaviour, GameObject } from "@needle-tools/engine/engine-components/Component";
+import { Mathf } from "@needle-tools/engine/engine/engine_math";
+import { serializeable } from "@needle-tools/engine/engine/engine_serialization_decorator";
 import { Object3D } from "three"
-import { Camera } from "needle.tiny.engine/engine-components/Camera";
-import { getWorldPosition, getWorldQuaternion, setWorldPosition } from "needle.tiny.engine/engine/engine_three_utils";
+import { Camera } from "@needle-tools/engine/engine-components/Camera";
+import { getWorldPosition, getWorldQuaternion, setWorldPosition } from "@needle-tools/engine/engine/engine_three_utils";
 import { SplineContainer } from "./SplineContainer";
 
 

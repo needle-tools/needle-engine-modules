@@ -4,11 +4,11 @@
   "main": "VideoPlayerTrack.ts",
   "dependencies": {},
   "peerDependencies": {
-    "needle.tiny.engine": ">= 1.0.0-pre",
+    "@needle-tools/engine": ">= 1.0.0-pre",
     "three": "^0.130"
   },
   "devDependencies": {
-    "needle.tiny.engine": "../../../../../../modules/needle-tiny/js/package~",
+    "@needle-tools/engine": "../../../../../../modules/needle-tiny/js/package~",
     "three": "../../../../../../modules/needle-tiny/modules/three"
   }
 }

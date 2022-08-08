@@ -1,8 +1,8 @@
-import { Camera } from "needle.tiny.engine/engine-components/Camera";
-import { Behaviour, GameObject } from "needle.tiny.engine/engine-components/Component";
-import { serializeable } from "needle.tiny.engine/engine/engine_serialization_decorator";
-import { getWorldQuaternion } from "needle.tiny.engine/engine/engine_three_utils";
-import { getParam } from "needle.tiny.engine/engine/engine_utils";
+import { Camera } from "@needle-tools/engine/engine-components/Camera";
+import { Behaviour, GameObject } from "@needle-tools/engine/engine-components/Component";
+import { serializeable } from "@needle-tools/engine/engine/engine_serialization_decorator";
+import { getWorldQuaternion } from "@needle-tools/engine/engine/engine_three_utils";
+import { getParam } from "@needle-tools/engine/engine/engine_utils";
 import * as THREE from "three";
 import { Vector3, Vector4, Quaternion, CatmullRomCurve3 } from "three";
 

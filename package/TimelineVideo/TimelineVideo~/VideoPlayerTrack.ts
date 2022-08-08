@@ -1,8 +1,8 @@
-import { PlayableDirector } from "needle.tiny.engine/engine-components/timeline/PlayableDirector";
-import { TrackModel } from "needle.tiny.engine/engine-components/timeline/TimelineModels";
-import { TrackHandler } from "needle.tiny.engine/engine-components/timeline/TimelineTracks";
-import { VideoPlayer } from "needle.tiny.engine/engine-components/VideoPlayer"
-import { getParam } from "needle.tiny.engine/engine/engine_utils";
+import { PlayableDirector } from "@needle-tools/engine/engine-components/timeline/PlayableDirector";
+import { TrackModel } from "@needle-tools/engine/engine-components/timeline/TimelineModels";
+import { TrackHandler } from "@needle-tools/engine/engine-components/timeline/TimelineTracks";
+import { VideoPlayer } from "@needle-tools/engine/engine-components/VideoPlayer"
+import { getParam } from "@needle-tools/engine/engine/engine_utils";
 
 
 const debug = getParam("debugvideotrack");
