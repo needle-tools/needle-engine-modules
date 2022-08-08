@@ -4,9 +4,8 @@ using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Timeline;
 
-namespace TimelineHtml.Editor
+namespace Needle.Timeline.Html
 {
-
 	[CustomTimelineEditor(typeof(CssTrack))]
 	[UsedImplicitly]
 	public class CssTrackEditor : TrackEditor
@@ -29,8 +28,8 @@ namespace TimelineHtml.Editor
 		public override void DrawBackground(TimelineClip clip, ClipBackgroundRegion region)
 		{
 			base.DrawBackground(clip, region);
-			GUI.color = new Color(.15f, 0.4f, 0.95f);
-			GUI.DrawTexture(region.position, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+			GUI.color = new Color(.15f, 0.4f, 0.95f, .25f);
+			GUI.DrawTexture(region.position, Texture2D.whiteTexture, ScaleMode.StretchToFill, true);
 			GUI.color = Color.white;
 		}
 	}

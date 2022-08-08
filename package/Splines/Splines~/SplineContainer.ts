@@ -85,6 +85,7 @@ export class SplineContainer extends Behaviour {
     private createCatmullRomCurve() {
         if (!this.spline) return;
         const points = this.spline.map(knot => new THREE.Vector3(-knot.position.x, knot.position.y, knot.position.z));
+        if(points.length === 1) points.push(points[0]);
         this._curve = new CatmullRomCurve3(points, this.closed);
     }
 

@@ -9,6 +9,7 @@ namespace Needle.TimelineVideo.Editor
 		[InitializeOnLoadMethod]
 		private static void Init()
 		{
+			TimelineSerializer.CreateModel -= OnCreateModel;
 			TimelineSerializer.CreateModel += OnCreateModel;
 		}
 

@@ -1,5 +1,5 @@
 import { PlayableDirector } from "needle.tiny.engine/engine-components/timeline/PlayableDirector";
-import { TrackModel } from "needle.tiny.engine/engine-components/timeline/TimelineModels";
+import { ClipModel, TrackModel } from "needle.tiny.engine/engine-components/timeline/TimelineModels";
 import { TrackHandler } from "needle.tiny.engine/engine-components/timeline/TimelineTracks";
 import { getParam } from "needle.tiny.engine/engine/engine_utils";
 
@@ -11,65 +11,103 @@ PlayableDirector.registerCreateTrack("CssTrack", (_dir, _track: TrackModel) => {
 
 
 declare type CssModel = {
+    id: string;
     query: string;
     class: string;
 }
 
-class CssTrack extends TrackHandler {
+class CssModelView {
+    clip: ClipModel;
+    model: CssModel;
+
+    private _elements: NodeListOf<Element>;
+    private _didHaveClass: boolean[] = [];
+
+    constructor(clip: ClipModel) {
+        this.clip = clip;
+        this.model = clip.asset;
+        this._elements = document.querySelectorAll(this.model.query);
+        this._elements.forEach(e => {
+            this._didHaveClass.push(e.classList.contains(this.model.class));
+        });
+    }
 
     onEnable() {
-        if (this._lastActive) this.onUnapply(this._lastActive.asset);
-        this._lastActive = undefined;
+        this._elements.forEach(el => {
+            el.classList.remove(this.model.class);
+        });
     }
-
-    onDisable(){
-        if (this._lastActive) this.onUnapply(this._lastActive.asset);
-        this._lastActive = undefined;
-    }
-
-    private _lastActive?: any;
 
     evaluate(time: number) {
+        const active = this.clip.start <= time && this.clip.end >= time;
+        this._elements.forEach(el => {
+            if (!active) {
+                el.classList.remove(this.model.class);
+            }
+            else {
+                el.classList.add(this.model.class);
+            }
+        });
+    }
+
+    reset() {
+        this._elements.forEach((el, i) => {
+            if (this._didHaveClass[i]) {
+                el.classList.add(this.model.class);
+            }
+            else {
+                el.classList.remove(this.model.class);
+            }
+        }
+        );
+    }
+}
+
+class CssTrack extends TrackHandler {
+
+    private _modelViews: CssModelView[] = [];
+    private _viewsMaps: Map<string, CssModelView> = new Map();
+
+    get isCssTrack() { return true; }
+
+    constructor() {
+        super();
+    }
+
+    onEnable() {
+        if (this._modelViews.length != this.track.clips.length) {
+            this._modelViews.length = 0;
+            this._viewsMaps.clear();
+        }
+        let index = 0;
         for (const clip of this.track.clips) {
-            if (clip.start <= time && clip.end >= time) {
-                if (clip !== this._lastActive) {
+            if(!clip.asset.id){
+                clip.asset.id = "clip-" + index++;
+            }
+            const view = new CssModelView(clip);
+            this._modelViews.push(view);
+            if (clip?.asset?.id?.length)
+                this._viewsMaps.set(clip.asset.id, view);
+        }
+        this._modelViews.forEach(mv => mv.onEnable());
+    }
 
-                    if (this._lastActive)
-                        this.onUnapply(this._lastActive.asset);
-                    this._lastActive = clip;
-                    this.onApply(clip.asset);
-                }
-            }
-            else if (clip === this._lastActive) {
-                this._lastActive = undefined;
-                this.onUnapply(clip.asset);
-            }
+    onDisable() {
+        this._modelViews.forEach(mv => mv.reset());
+    }
+
+    evaluate(time: number) {
+        for (const mv of this._modelViews) {
+            mv.evaluate(time);
         }
     }
 
-    onApply(model: CssModel) {
-        if (!model) return;
-        if (!model.class) return;
-        const elements = document.querySelectorAll(model.query);
-        if (elements) {
-            if (debug)
-                console.log("ADD CLASS", model.class, elements);
-            for(let i = 0; i < elements.length; i++)
-                elements[i].classList.add(model.class);
+    /* must stay in sync with website.ScrollNavigation */
+    getScrollTimeForId(id: string) {
+        const mv = this._viewsMaps.get(id);
+        if (mv) {
+            return mv.clip.start;
         }
-        else if (debug) console.warn("could not find " + model.query, model.class)
-    }
-
-    onUnapply(model: CssModel) {
-        if (!model) return;
-        if (!model.class) return;
-        const elements = document.querySelectorAll(model.query);
-        if (elements?.length) {
-            if (debug)
-                console.log("REMOVE CLASS", model.class, elements);
-            for(let i = 0; i < elements.length; i++)
-                elements[i].classList.remove(model.class);
-        }
-        else if (debug) console.warn("could not find " + model.query, model.class)
+        return -1;
     }
 }
