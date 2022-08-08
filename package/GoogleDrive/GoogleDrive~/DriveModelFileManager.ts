@@ -1,14 +1,14 @@
-import { GameObject } from "needle.tiny.engine/engine-components/Component";
-import { onDynamicObjectAdded } from "needle.tiny.engine/engine/engine_networking_files_default_components";
-import { tryFindObject } from "needle.tiny.engine/engine/engine_utils";
+import { GameObject } from "@needle-tools/engine/engine-components/Component";
+import { onDynamicObjectAdded } from "@needle-tools/engine/engine/engine_networking_files_default_components";
+import { tryFindObject } from "@needle-tools/engine/engine/engine_utils";
 import { DriveClient } from "./DriveClient";
 import { LoadedGLTF } from "./DriveFileAccess";
 import { UserOpenedFileModel } from "./networking/DriveSyncedFile";
 import * as THREE from "three";
-import { Context } from "needle.tiny.engine/engine/engine_setup";
+import { Context } from "@needle-tools/engine/engine/engine_setup";
 import { ModelUtils } from "./ModelUtils";
-import { setWorldPosition } from "needle.tiny.engine/engine/engine_three_utils";
-import { SyncedTransform } from "needle.tiny.engine/engine-components/SyncedTransform";
+import { setWorldPosition } from "@needle-tools/engine/engine/engine_three_utils";
+import { SyncedTransform } from "@needle-tools/engine/engine-components/SyncedTransform";
 
 export class DriveModelFileManager {
     constructor(client: DriveClient) {

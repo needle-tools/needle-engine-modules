@@ -1,7 +1,7 @@
-import { GameObject } from "needle.tiny.engine/engine-components/Component";
-import { SyncedRoom } from "needle.tiny.engine/engine-components/SyncedRoom";
-import { ApplicationEvents } from "needle.tiny.engine/engine/engine_application";
-import { RoomEvents } from "needle.tiny.engine/engine/engine_networking";
+import { GameObject } from "@needle-tools/engine/engine-components/Component";
+import { SyncedRoom } from "@needle-tools/engine/engine-components/SyncedRoom";
+import { ApplicationEvents } from "@needle-tools/engine/engine/engine_application";
+import { RoomEvents } from "@needle-tools/engine/engine/engine_networking";
 import { BaseApiProvider } from "../BaseApiProvider";
 import { DriveClient } from "../DriveClient";
 import { DriveNetworkingBase } from "./DriveNetworkingBase";

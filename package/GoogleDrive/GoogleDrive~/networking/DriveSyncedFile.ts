@@ -1,6 +1,6 @@
-import { GameObject } from "needle.tiny.engine/engine-components/Component";
-import { IModel, RoomEvents, UserJoinedOrLeftRoomModel } from "needle.tiny.engine/engine/engine_networking";
-import { InstantiateIdProvider } from "needle.tiny.engine/engine/engine_networking_instantiate";
+import { GameObject } from "@needle-tools/engine/engine-components/Component";
+import { IModel, RoomEvents, UserJoinedOrLeftRoomModel } from "@needle-tools/engine/engine/engine_networking";
+import { InstantiateIdProvider } from "@needle-tools/engine/engine/engine_networking_instantiate";
 import { UserInfo } from "../DriveApi";
 import { DriveClient } from "../DriveClient";
 import { LoadedGLTF } from "../DriveFileAccess";
