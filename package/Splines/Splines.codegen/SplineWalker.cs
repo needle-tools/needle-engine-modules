@@ -1,4 +1,4 @@
-#if SPLINES_INSTALLED
+// NEEDLE_CODEGEN_START
 // auto generated code - do not edit directly
 
 #pragma warning disable
@@ -12,8 +12,6 @@ namespace Needle.Typescript.GeneratedComponents
 		public float @speed = 0f;
 		public UnityEngine.Transform @lookAt;
 		public bool @clamp = false;
-		private float @_position01 = 0f;
-		private float @_targetPosition01 = 0f;
 		public void setPosition(float @t, bool @animate){}
 		public void awake(){}
 		public void onEnable(){}
@@ -22,4 +20,4 @@ namespace Needle.Typescript.GeneratedComponents
 	}
 }
 
-#endif
+// NEEDLE_CODEGEN_END
