@@ -1,5 +1,5 @@
 {
-    "name": "Needle.Tiny.GoogleDrive",
+    "name": "Needle.Engine.GoogleDrive",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [],
