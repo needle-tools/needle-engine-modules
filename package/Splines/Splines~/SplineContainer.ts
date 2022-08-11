@@ -1,5 +1,6 @@
 import { Camera } from "@needle-tools/engine/engine-components/Camera";
 import { Behaviour, GameObject } from "@needle-tools/engine/engine-components/Component";
+import { Mathf } from "@needle-tools/engine/engine/engine_math";
 import { serializeable } from "@needle-tools/engine/engine/engine_serialization_decorator";
 import { getWorldQuaternion } from "@needle-tools/engine/engine/engine_three_utils";
 import { getParam } from "@needle-tools/engine/engine/engine_utils";
@@ -48,13 +49,13 @@ export class SplineContainer extends Behaviour {
     }
 
     public getPointAt(t: number, target?: THREE.Vector3): THREE.Vector3 {
-        return this.curve?.getPointAt(t, target).applyMatrix4(this.gameObject.matrixWorld);
+        return this.curve?.getPointAt(Mathf.clamp01(t), target).applyMatrix4(this.gameObject.matrixWorld);
     }
 
     public getTangentAt(t: number, target?: THREE.Vector3): THREE.Vector3 {
         if(!this.curve) return target ?? new THREE.Vector3();
         const wr = getWorldQuaternion(this.gameObject);
-        return this.curve.getTangentAt(t).applyQuaternion(wr);;
+        return this.curve.getTangentAt(Mathf.clamp01(t)).applyQuaternion(wr);;
     }
 
     private _curve: THREE.Curve<THREE.Vector3> | null = null;
