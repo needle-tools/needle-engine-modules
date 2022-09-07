@@ -10,4 +10,4 @@
 1) Open ``Window/Package Manager``
 2) Click ``+`` in top left corner
 3) Select ``Add package from GIT url``
-4) Paste: ``https://github.com/needle-tools/needle-engine-modules?path=package``
+4) Paste: ``git:https://github.com/needle-tools/needle-engine-modules?path=package``
