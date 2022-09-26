@@ -134,6 +134,7 @@ export class DriveClient extends Behaviour {
                     const file = await this.picker?.openFilePicker(this.currentCancellationToken);
                     console.log("PICKED", file);
                     this.modelManager?.onCreateFile(file);
+                    this.dispatchEvent(new CustomEvent("file-picked", { detail: file?.root }));
                 });
             }
 
