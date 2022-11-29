@@ -1,12 +1,11 @@
-import { Behaviour, GameObject } from "@needle-tools/engine/engine-components/Component";
+import { Behaviour, GameObject } from "@needle-tools/engine";
 import { Mathf } from "@needle-tools/engine/engine/engine_math";
 import { serializeable } from "@needle-tools/engine/engine/engine_serialization_decorator";
+import { getWorldPosition, setWorldPosition } from "@needle-tools/engine/engine/engine_three_utils";
+
 import { Object3D } from "three"
-import { Camera } from "@needle-tools/engine/engine-components/Camera";
-import { getWorldPosition, getWorldQuaternion, setWorldPosition } from "@needle-tools/engine/engine/engine_three_utils";
+
 import { SplineContainer } from "./SplineContainer";
-
-
 
 export class SplineWalker extends Behaviour {
 
@@ -14,11 +13,11 @@ export class SplineWalker extends Behaviour {
     @serializeable(SplineContainer)
     spline: SplineContainer | null = null;
     @serializeable(Object3D)
-    object?: THREE.Object3D;
+    object?: Object3D;
     @serializeable()
     speed: number = 0;
     @serializeable(Object3D)
-    lookAt: THREE.Object3D | null = null;
+    lookAt: Object3D | null = null;
     @serializeable()
     clamp: boolean = false;
 

@@ -11,9 +11,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public string @apiKey;
 		public bool @createLoginButton = true;
 		public bool @useFilePicker = false;
-		public void onEnable(){}
-		public void init(object @gapi, object @google){}
-		public void handleAuthClick(){}
+		public void OnEnable(){}
 		public void update(){}
 	}
 }

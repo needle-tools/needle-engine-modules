@@ -1,9 +1,7 @@
-import { PlayableDirector } from "@needle-tools/engine/engine-components/timeline/PlayableDirector";
+import { PlayableDirector, VideoPlayer } from "@needle-tools/engine";
 import { TrackModel } from "@needle-tools/engine/engine-components/timeline/TimelineModels";
 import { TrackHandler } from "@needle-tools/engine/engine-components/timeline/TimelineTracks";
-import { VideoPlayer } from "@needle-tools/engine/engine-components/VideoPlayer"
 import { getParam } from "@needle-tools/engine/engine/engine_utils";
-
 
 const debug = getParam("debugvideotrack");
 

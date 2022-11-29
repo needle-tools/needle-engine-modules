@@ -1,11 +1,12 @@
-import { Camera } from "@needle-tools/engine/engine-components/Camera";
-import { Behaviour, GameObject } from "@needle-tools/engine/engine-components/Component";
+import { Behaviour } from "@needle-tools/engine";
 import { Mathf } from "@needle-tools/engine/engine/engine_math";
 import { serializeable } from "@needle-tools/engine/engine/engine_serialization_decorator";
 import { getWorldQuaternion } from "@needle-tools/engine/engine/engine_three_utils";
 import { getParam } from "@needle-tools/engine/engine/engine_utils";
-import * as THREE from "three";
-import { Vector3, Vector4, Quaternion, CatmullRomCurve3 } from "three";
+
+import { Object3D, Vector3, Quaternion, 
+    CatmullRomCurve3, CubicBezierCurve3, Curve, LineCurve3, 
+    BufferGeometry, Line, LineBasicMaterial } from "three";
 
 const debug = getParam("debugsplines");
 
@@ -43,24 +44,24 @@ export class SplineContainer extends Behaviour {
         this._debugLine.visible = val;
     }
 
-    public get curve(): THREE.Curve<THREE.Vector3> | null {
+    public get curve(): Curve<Vector3> | null {
         if (!this._builtCurve) this.buildCurveNow();
         return this._curve;
     }
 
-    public getPointAt(t: number, target?: THREE.Vector3): THREE.Vector3 {
+    public getPointAt(t: number, target?: Vector3): Vector3 {
         return this.curve?.getPointAt(Mathf.clamp01(t), target).applyMatrix4(this.gameObject.matrixWorld);
     }
 
-    public getTangentAt(t: number, target?: THREE.Vector3): THREE.Vector3 {
-        if(!this.curve) return target ?? new THREE.Vector3();
+    public getTangentAt(t: number, target?: Vector3): Vector3 {
+        if(!this.curve) return target ?? new Vector3();
         const wr = getWorldQuaternion(this.gameObject);
         return this.curve.getTangentAt(Mathf.clamp01(t)).applyQuaternion(wr);;
     }
 
-    private _curve: THREE.Curve<THREE.Vector3> | null = null;
+    private _curve: Curve<Vector3> | null = null;
     private _builtCurve: boolean = false;
-    private _debugLine: THREE.Object3D | null = null;
+    private _debugLine: Object3D | null = null;
 
     awake() { if (debug) this.buildCurveNow(); }
 
@@ -85,7 +86,7 @@ export class SplineContainer extends Behaviour {
 
     private createCatmullRomCurve() {
         if (!this.spline) return;
-        const points = this.spline.map(knot => new THREE.Vector3(-knot.position.x, knot.position.y, knot.position.z));
+        const points = this.spline.map(knot => new Vector3(-knot.position.x, knot.position.y, knot.position.z));
         if(points.length === 1) points.push(points[0]);
         this._curve = new CatmullRomCurve3(points, this.closed);
     }
@@ -104,43 +105,43 @@ export class SplineContainer extends Behaviour {
             }
             const k1 = this.spline[nextIndex];
             // points
-            const p0 = new THREE.Vector3(-k0.position.x, k0.position.y, k0.position.z);
-            const p1 = new THREE.Vector3(-k1.position.x, k1.position.y, k1.position.z);
+            const p0 = new Vector3(-k0.position.x, k0.position.y, k0.position.z);
+            const p1 = new Vector3(-k1.position.x, k1.position.y, k1.position.z);
             // tangents
-            const t0 = new THREE.Vector3(-k0.tangentOut.x, k0.tangentOut.y, k0.tangentOut.z);
-            const t1 = new THREE.Vector3(-k1.tangentIn.x, k1.tangentIn.y, k1.tangentIn.z);
+            const t0 = new Vector3(-k0.tangentOut.x, k0.tangentOut.y, k0.tangentOut.z);
+            const t1 = new Vector3(-k1.tangentIn.x, k1.tangentIn.y, k1.tangentIn.z);
             // rotations
-            const q0 = k0.rotation;// new THREE.Quaternion(k0.rotation.value.x, k0.rotation.value.y, k0.rotation.value.z, k0.rotation.value.w);
-            const q1 = k1.rotation;// new THREE.Quaternion(k1.rotation.value.x, k1.rotation.value.y, k1.rotation.value.z, k1.rotation.value.w);
-            // const a = new THREE.Vector3(0,1,0);
+            const q0 = k0.rotation;// new Quaternion(k0.rotation.value.x, k0.rotation.value.y, k0.rotation.value.z, k0.rotation.value.w);
+            const q1 = k1.rotation;// new Quaternion(k1.rotation.value.x, k1.rotation.value.y, k1.rotation.value.z, k1.rotation.value.w);
+            // const a = new Vector3(0,1,0);
             // const angle = Math.PI*.5;
             // t0.sub(p0).applyQuaternion(q0).add(p0);
             // t1.sub(p1).applyQuaternion(q1).add(p1);
             t0.add(p0);
             // t0.applyQuaternion(q0);
             t1.add(p1);
-            const curve = new THREE.CubicBezierCurve3(p0, t0, t1, p1);
+            const curve = new CubicBezierCurve3(p0, t0, t1, p1);
             this._curve = curve;
         }
     }
 
     private createLinearCurve() {
         if (!this.spline) return;
-        const points = this.spline.map(knot => new THREE.Vector3(-knot.position.x, knot.position.y, knot.position.z));
+        const points = this.spline.map(knot => new Vector3(-knot.position.x, knot.position.y, knot.position.z));
         if (this.closed) points.push(points[0]);
-        this._curve = new THREE.LineCurve3(points);
+        this._curve = new LineCurve3(points);
     }
 
     private buildDebugCurve() {
         if (debug && this.spline) {
-            const material = new THREE.LineBasicMaterial({
+            const material = new LineBasicMaterial({
                 color: 0x0000ff
             });
             const res = this.spline.length * 10;
             // preview
             const splinePoints = this._curve.getPoints(res);
-            const geometry = new THREE.BufferGeometry().setFromPoints(splinePoints);
-            this._debugLine = new THREE.Line(geometry, material);
+            const geometry = new BufferGeometry().setFromPoints(splinePoints);
+            this._debugLine = new Line(geometry, material);
             this.gameObject.add(this._debugLine);
         }
     }
@@ -155,8 +156,8 @@ export class SplineContainer extends Behaviour {
 //         this.spline = spline;
 //     }
 
-//     getPoints(num: number): THREE.Vector3[] {
-//         const points: THREE.Vector3[] = [];
+//     getPoints(num: number): Vector3[] {
+//         const points: Vector3[] = [];
 //         const samplePerKnot = num / this.spline.length;
 //         for (let k = 1; k < this.spline.length; k++) {
 //             const cur = this.spline[k];
@@ -164,11 +165,11 @@ export class SplineContainer extends Behaviour {
 
 //             for (let i = 0; i < samplePerKnot; i++) {
 //                 const t = i / (samplePerKnot - 1);
-//                 console.log(THREE.CurveUtils);
+//                 console.log(CurveUtils);
 //                 const x = this.interpolate(-prev.Position.x, -cur.Position.x, -prev.tangentOut.x, -cur.TangentIn.x, t);
 //                 const y = this.interpolate(prev.Position.y, cur.Position.y, prev.tangentOut.y, cur.TangentIn.y, t);
 //                 const z = this.interpolate(prev.Position.z, cur.Position.z, prev.tangentOut.z, cur.TangentIn.z, t);
-//                 points.push(new THREE.Vector3(x, y, z));
+//                 points.push(new Vector3(x, y, z));
 //             }
 //         }
 

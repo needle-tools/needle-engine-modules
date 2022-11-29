@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import { MathUtils } from "three";
 
 // maybe replace with https://developer.mozilla.org/en-US/docs/Web/API/AbortController ?
 export class FileCancellation {
@@ -6,7 +6,7 @@ export class FileCancellation {
     cancellationRequested: boolean = false;
 
     constructor() {
-        this.id = THREE.MathUtils.generateUUID();
+        this.id = MathUtils.generateUUID();
     }
 
     cancel() {

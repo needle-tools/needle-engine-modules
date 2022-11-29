@@ -1,4 +1,6 @@
-import { Behaviour, GameObject } from "@needle-tools/engine/engine-components/Component";
+import { Behaviour } from "@needle-tools/engine";
+import { KeyCode } from "@needle-tools/engine/engine/engine_input";
+
 import { DriveApi } from "./DriveApi";
 import { DriveFileAccess } from "./DriveFileAccess";
 import { DriveFilePicker } from "./DriveFilePicker";
@@ -7,7 +9,6 @@ import { DriveNetworking } from "./networking/DriveNetworking";
 import { DriveModelFileManager } from "./DriveModelFileManager";
 import { DriveUIComponent } from "./ui/DriveUIComponent"
 import { FileCancellation } from "./FileCancellation";
-import { KeyCode } from "@needle-tools/engine/engine/engine_input";
 import { DriveShareDialogue } from "./DriveShareDialogue";
 
 

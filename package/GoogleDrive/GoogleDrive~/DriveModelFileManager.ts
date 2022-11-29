@@ -1,14 +1,14 @@
-import { GameObject } from "@needle-tools/engine/engine-components/Component";
+import { GameObject, SyncedTransform } from "@needle-tools/engine";
 import { onDynamicObjectAdded } from "@needle-tools/engine/engine/engine_networking_files_default_components";
 import { tryFindObject } from "@needle-tools/engine/engine/engine_utils";
+import { Context } from "@needle-tools/engine/engine/engine_setup";
+
+import { Box3, BoxGeometry, BoxHelper, Color, Mesh, MeshBasicMaterial, MeshNormalMaterial, Object3D, Vector3 } from "three";
+
 import { DriveClient } from "./DriveClient";
 import { LoadedGLTF } from "./DriveFileAccess";
 import { UserOpenedFileModel } from "./networking/DriveSyncedFile";
-import * as THREE from "three";
-import { Context } from "@needle-tools/engine/engine/engine_setup";
 import { ModelUtils } from "./ModelUtils";
-import { setWorldPosition } from "@needle-tools/engine/engine/engine_three_utils";
-import { SyncedTransform } from "@needle-tools/engine/engine-components/SyncedTransform";
 
 export class DriveModelFileManager {
     constructor(client: DriveClient) {
@@ -48,7 +48,7 @@ export class DriveModelFileManager {
         this.removePreviouslyCreatedFiles();
     }
 
-    showFilePreview(fileName: string, worldPosition?: THREE.Vector3, worldScale?: THREE.Vector3) {
+    showFilePreview(fileName: string, worldPosition?: Vector3, worldScale?: Vector3) {
         this._filePreview.show(fileName, worldPosition, worldScale);
     }
 
@@ -60,7 +60,7 @@ export class DriveModelFileManager {
         this._filePreview?.hide();
     }
 
-    private postProcessFile(root: THREE.Object3D, file: LoadedGLTF) {
+    private postProcessFile(root: Object3D, file: LoadedGLTF) {
         if (file.idProvider) {
             onDynamicObjectAdded(root, file.idProvider);
         }
@@ -69,9 +69,9 @@ export class DriveModelFileManager {
         for(const s of st) s.syncDestroy = false;
 
 
-        const bounds : THREE.Box3 = ModelUtils.getBounds(root, false);
-        const center = bounds.getCenter(new THREE.Vector3());
-        const size = bounds.getSize(new THREE.Vector3());
+        const bounds : Box3 = ModelUtils.getBounds(root, false);
+        const center = bounds.getCenter(new Vector3());
+        const size = bounds.getSize(new Vector3());
         const maxComponent = Math.max(size.x, size.y, size.z);
         if(maxComponent > .1) return;
         const targetBoxSize = 1;
@@ -81,7 +81,7 @@ export class DriveModelFileManager {
         root.position.sub(center.multiplyScalar(scale));
         root.scale.multiplyScalar(scale);
         
-        const parent = new THREE.Object3D();
+        const parent = new Object3D();
         root.parent.add(parent);
         parent.add(root);
     }
@@ -99,32 +99,32 @@ class FilePreviewRenderer {
 
     private context: Context;
 
-    private root: THREE.Object3D | null = null;
-    private bounds: THREE.Object3D;
-    private progressObject: THREE.Object3D;
+    private root: Object3D | null = null;
+    private bounds: Object3D;
+    private progressObject: Object3D;
 
     private normalColor: any = 0x333333;
     private awaitAccessColor: any = 0xc1b044;
 
     constructor(context: Context) {
         this.context = context;
-        this.root = new THREE.Object3D();
-        const geo = new THREE.BoxGeometry();
-        const col = new THREE.Color(this.normalColor);
-        const object = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: col }));
-        this.bounds = new THREE.BoxHelper(object, col);
+        this.root = new Object3D();
+        const geo = new BoxGeometry();
+        const col = new Color(this.normalColor);
+        const object = new Mesh(geo, new MeshBasicMaterial({ color: col }));
+        this.bounds = new BoxHelper(object, col);
         this.root.add(this.bounds);
         this.root.position.y = this.root.scale.y * .5;
 
-        const progressMat = new THREE.MeshNormalMaterial({ color: col });
+        const progressMat = new MeshNormalMaterial({ color: col });
         progressMat.opacity = .2;
         progressMat.transparent = true;
-        this.progressObject = new THREE.Mesh(geo, progressMat);
+        this.progressObject = new Mesh(geo, progressMat);
         this.progressObject.scale.set(1, 0, 1);
         this.bounds.add(this.progressObject);
     }
 
-    show(name: string, position?: THREE.Vector3, scale?: THREE.Vector3) {
+    show(name: string, position?: Vector3, scale?: Vector3) {
         this.bounds.material.color.set(this.awaitAccessColor);
         this.context.scene.add(this.root);
         this.updateProgress(0);

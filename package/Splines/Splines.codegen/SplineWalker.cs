@@ -1,4 +1,3 @@
-#if SPLINES_INSTALLED
 // NEEDLE_CODEGEN_START
 // auto generated code - do not edit directly
 
@@ -15,11 +14,8 @@ namespace Needle.Typescript.GeneratedComponents
 		public bool @clamp = false;
 		public void setPosition(float @t, bool @animate){}
 		public void awake(){}
-		public void onEnable(){}
-		public void internalUpdate(){}
-		public void updateFromPosition(){}
+		public void OnEnable(){}
 	}
 }
 
 // NEEDLE_CODEGEN_END
-#endif
