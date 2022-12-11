@@ -9,12 +9,10 @@ namespace Needle.Typescript.GeneratedComponents
 	{
 		public UnityEngine.Splines.SplineContainer @spline;
 		public UnityEngine.Transform @object;
-		public float @speed = 0f;
+		public float @position01;
 		public UnityEngine.Transform @lookAt;
 		public bool @clamp = false;
-		public void setPosition(float @t, bool @animate){}
-		public void awake(){}
-		public void OnEnable(){}
+		public void start(){}
 	}
 }
 

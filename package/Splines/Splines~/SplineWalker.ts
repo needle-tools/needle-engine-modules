@@ -15,47 +15,30 @@ export class SplineWalker extends Behaviour {
     @serializeable(Object3D)
     object?: Object3D;
     @serializeable()
-    speed: number = 0;
+    get position01(): number {
+        return this._position01;
+    }
+    set position01(v: number) {
+        this._position01 = v;
+        this.updateFromPosition();
+    }
     @serializeable(Object3D)
     lookAt: Object3D | null = null;
     @serializeable()
     clamp: boolean = false;
 
     private _position01: number = 0;
-    private _targetPosition01: number = 0;
 
-    setPosition(t: number, animate: boolean = true) {
-        this._targetPosition01 = t;
-        if (!animate) {
-            this._position01 = t;
-            this.updateFromPosition();
-        }
-    }
-
-    awake() {
-        this._targetPosition01 = this._position01;
-        this._position01 = this._targetPosition01;
-    }
-
-    onEnable() {
-        this.startCoroutine(this.internalUpdate());
-    }
-
-    private *internalUpdate() {
-        while (true) {
-            this.updateFromPosition();
-            yield;
-        }
+    start() {
+        this.updateFromPosition();
     }
 
     private updateFromPosition() {
         if (!this.spline || !this.spline.curve) return;
         if (!this.object) return;
 
-        if (this.speed !== 0)
-            this._targetPosition01 += this.context.time.deltaTime * this.speed;
-        if (this.clamp) this._targetPosition01 = Mathf.clamp01(this._targetPosition01);
-        this._position01 = Mathf.lerp(this._position01, this._targetPosition01, this.context.time.deltaTime / .2);
+        if (this.clamp) this._position01 = Mathf.clamp01(this._position01);
+        else this._position01 = this._position01 % 1;
 
         const t = this._position01 % 1;
         const pt = this.spline.getPointAt(t);
