@@ -1,20 +1,22 @@
 {
-    "displayName": "Needle Engine Modules",
-    "name": "com.needle.engine.modules",
-    "version": "1.0.0-pre",
-    "unity": "2020.3",
-    "description": "Modules package for the Needle Engine",
-    "keywords": [
-        "Three.js",
-        "Runtime",
-        "WebGL"
-    ],
-    "author": {
-        "name": "Needle",
-        "email": "hi@needle.tools",
-        "url": "https://needle.tools"
-    },
-    "category": "Libraries",
-    "type": "tool",
-    "dependencies": {}
+  "displayName": "Needle Engine Modules",
+  "name": "com.needle.engine.modules",
+  "version": "1.0.0-pre",
+  "unity": "2020.3",
+  "description": "Modules package for the Needle Engine",
+  "keywords": [
+    "Three.js",
+    "Runtime",
+    "WebGL"
+  ],
+  "author": {
+    "name": "Needle",
+    "email": "hi@needle.tools",
+    "url": "https://needle.tools"
+  },
+  "category": "Libraries",
+  "type": "tool",
+  "dependencies": {
+    "com.unity.splines": ""
+  }
 }
