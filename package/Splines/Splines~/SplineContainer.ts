@@ -63,7 +63,12 @@ export class SplineContainer extends Behaviour {
     private _builtCurve: boolean = false;
     private _debugLine: Object3D | null = null;
 
-    awake() { if (debug) this.buildCurveNow(); }
+    awake() {
+        if (debug) {
+            console.log(this.name, this);
+            this.buildCurveNow();
+        }
+    }
 
     private buildCurveNow() {
         if (this._builtCurve) return;
