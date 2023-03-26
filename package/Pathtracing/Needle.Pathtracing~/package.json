@@ -1,0 +1,16 @@
+{
+  "name": "@needle-tools/pathtracing",
+  "version": "1.1.2-pre",
+  "main": "index.ts",
+  "dependencies": {
+    "three-gpu-pathtracer": "^0.0.14",
+    "three-mesh-bvh": "^0.5.23"
+  },
+  "devDependencies": {
+    "@needle-tools/engine": "../../../Library/PackageCache/com.needle.engine@2.66.1-pre/package~",
+    "three": "../../../Library/PackageCache/com.needle.engine@2.66.1-pre/package~/node_modules/three"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
