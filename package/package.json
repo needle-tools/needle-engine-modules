@@ -15,8 +15,5 @@
     "url": "https://needle.tools"
   },
   "category": "Libraries",
-  "type": "tool",
-  "dependencies": {
-    "com.unity.splines": ""
-  }
+  "type": "tool"
 }
