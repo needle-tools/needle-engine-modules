@@ -1,7 +1,7 @@
 import { Behaviour, GameObject } from "@needle-tools/engine";
-import { Mathf } from "@needle-tools/engine/engine/engine_math";
-import { serializeable } from "@needle-tools/engine/engine/engine_serialization_decorator";
-import { getWorldPosition, setWorldPosition } from "@needle-tools/engine/engine/engine_three_utils";
+import { Mathf } from "@needle-tools/engine/src/engine/engine_math";
+import { serializeable } from "@needle-tools/engine/src/engine/engine_serialization_decorator";
+import { getWorldPosition, setWorldPosition } from "@needle-tools/engine/src/engine/engine_three_utils";
 
 import { Object3D } from "three"
 

@@ -1,7 +1,7 @@
 import { PlayableDirector } from "@needle-tools/engine";
-import { ClipModel, TrackModel } from "@needle-tools/engine/engine-components/timeline/TimelineModels";
-import { TrackHandler } from "@needle-tools/engine/engine-components/timeline/TimelineTracks";
-import { getParam } from "@needle-tools/engine/engine/engine_utils";
+import { ClipModel, TrackModel } from "@needle-tools/engine/src/engine-components/timeline/TimelineModels";
+import { TrackHandler } from "@needle-tools/engine/src/engine-components/timeline/TimelineTracks";
+import { getParam } from "@needle-tools/engine/src/engine/engine_utils";
 
 const debug = getParam("debugcsstrack")
 

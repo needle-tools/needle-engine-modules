@@ -1,8 +1,8 @@
 import { Behaviour } from "@needle-tools/engine";
-import { Mathf } from "@needle-tools/engine/engine/engine_math";
-import { serializeable } from "@needle-tools/engine/engine/engine_serialization_decorator";
-import { getWorldQuaternion } from "@needle-tools/engine/engine/engine_three_utils";
-import { getParam } from "@needle-tools/engine/engine/engine_utils";
+import { Mathf } from "@needle-tools/engine/src/engine/engine_math";
+import { serializeable } from "@needle-tools/engine/src/engine/engine_serialization_decorator";
+import { getWorldQuaternion } from "@needle-tools/engine/src/engine/engine_three_utils";
+import { getParam } from "@needle-tools/engine/src/engine/engine_utils";
 
 import { Object3D, Vector3, Quaternion, 
     CatmullRomCurve3, CubicBezierCurve3, Curve, LineCurve3, 

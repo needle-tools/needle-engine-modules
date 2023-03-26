@@ -1,8 +1,8 @@
-﻿import { TypeStore } from "@needle-tools/engine/engine/engine_typestore"
+﻿import { TypeStore } from "@needle-tools/engine"
 
 // Import types
-import { SplineContainer } from "../SplineContainer.ts";
-import { SplineWalker } from "../SplineWalker.ts";
+import { SplineContainer } from "../SplineContainer";
+import { SplineWalker } from "../SplineWalker";
 
 // Register types
 TypeStore.add("SplineContainer", SplineContainer);

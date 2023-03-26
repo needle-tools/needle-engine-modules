@@ -8,7 +8,7 @@
     "three": "^0.130"
   },
   "devDependencies": {
-    "@needle-tools/engine": "../../../../../projects/Needle_Website/Library/PackageCache/com.@needle-tools/engine@1.12.2-pre/package~",
-    "three": "../../../../../projects/Needle_Website/Library/PackageCache/com.@needle-tools/engine@1.12.2-pre/package~/node_modules/three"
+    "@needle-tools/engine": "../../../../../../needle-tiny-playground/modules/needle-tiny/js/package~",
+    "three": "../../../../../../needle-tiny-playground/modules/needle-tiny/modules/three"
   }
 }
