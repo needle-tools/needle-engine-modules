@@ -1,5 +1,4 @@
-import { Behaviour, GameObject, OrbitControls, serializeable } from "@needle-tools/engine";
-import { FullScreenQuad } from 'three/examples/jsm/postprocessing/Pass.js';
+import { Behaviour, serializeable } from "@needle-tools/engine";
 import {
     PathTracingSceneGenerator,
     PathTracingRenderer,
@@ -7,9 +6,11 @@ import {
     MaterialReducer,
 } from 'three-gpu-pathtracer';
 import { PathTracingSceneWorker } from 'three-gpu-pathtracer/src/workers/PathTracingSceneWorker.js';
-import { MeshBasicMaterial, CustomBlending, Object3D, DoubleSide, Camera } from 'three';
-import { CameraTracker } from './CameraTracker';
 
+import { MeshBasicMaterial, CustomBlending, Object3D, DoubleSide } from 'three';
+import { FullScreenQuad } from 'three/examples/jsm/postprocessing/Pass.js';
+
+import { CameraTracker } from './CameraTracker';
 
 // Documentation → https://docs.needle.tools/scripting
 
@@ -150,6 +151,12 @@ export class Pathtracing extends Behaviour {
         else this._lastTimeChanged = 0;
     }
 
+    dispatchMessage(message: string) {
+        this.dispatchEvent(new CustomEvent('loading-message', { detail: {
+            message: message,
+        }}));
+    }
+
     private async updateModel(model: Object3D) {
         const renderer = this.context.renderer;
         const scene = this.context.scene;
@@ -169,6 +176,7 @@ export class Pathtracing extends Behaviour {
         let result: any;
 
         if (this.useWorker) {
+            this.dispatchMessage(`Initializing...`);
             generator = new PathTracingSceneWorker();
             console.log(model);
 
@@ -176,15 +184,17 @@ export class Pathtracing extends Behaviour {
                 onProgress: v => {
                     const percent = Math.floor(100 * v);
                     console.log(`Building BVH : ${percent}%`);
-
+                    this.dispatchMessage(`Building BVH : ${percent}%`);
                 }
             });
         }
         else {
+            this.dispatchMessage(`Building BVH...`);
             generator = new PathTracingSceneGenerator();
             result = generator.generate(model);
         }
 
+        this.dispatchMessage(`Adding scene...`);
         this.sceneInfo = result;
         scene.add(this.sceneInfo.scene);
 
@@ -192,6 +202,7 @@ export class Pathtracing extends Behaviour {
         const geometry = bvh.geometry;
         const material = this.ptRenderer.material;
 
+        this.dispatchMessage(`Updating materials...`);
         material.bvh.updateFrom(bvh);
         material.attributesArray.updateFrom(
             geometry.attributes.normal,
@@ -208,6 +219,7 @@ export class Pathtracing extends Behaviour {
 
         this.ptRenderer.reset();
 
+        this.dispatchMessage(`Rendering.`);
         this.enableRendering = true;
     }
 
