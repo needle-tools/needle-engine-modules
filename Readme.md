@@ -13,6 +13,10 @@ Reference them in your Needle Engine Unity project to get started.
 
 ## How to install 💽
 
+## Using Needle Package Installer
+1) Download [this installer](https://package-installer.glitch.me/v1/installer/needle/com.needle.engine-modules?registry=https://packages.needle.tools&scope=com.needle&scope=org.khronos)
+2) Drag Drop it into a Unity project to install the Needle Engine Modules package
+
 ### [From github](https://docs.unity3d.com/Manual/upm-ui-giturl.html):  
 1) Open <kbd>Window > Package Manager</kbd>
 2) Click <kbd>+</kbd> in top left corner
