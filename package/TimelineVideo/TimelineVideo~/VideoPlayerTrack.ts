@@ -1,7 +1,7 @@
-import { PlayableDirector, VideoPlayer } from "@needle-tools/engine";
+import { PlayableDirector, VideoPlayer, serializable } from "@needle-tools/engine";
 import { TrackModel } from "@needle-tools/engine/src/engine-components/timeline/TimelineModels";
 import { TrackHandler } from "@needle-tools/engine/src/engine-components/timeline/TimelineTracks";
-import { getParam } from "@needle-tools/engine/src/engine/engine_utils";
+import { getParam, resolveUrl } from "@needle-tools/engine/src/engine/engine_utils";
 
 const debug = getParam("debugvideotrack");
 
@@ -19,6 +19,20 @@ class VideoTrack extends TrackHandler {
     }
 
     _lastTimeSet: number = 0;
+
+    private _resolvedClipUrls: boolean = false;
+
+    onEnable() {
+        if (!this._resolvedClipUrls) {
+            this._resolvedClipUrls = true;
+            for (const clip of this.track.clips) {
+                const model = clip.asset as VideoClipModel;
+                if (model.clip) {
+                    model.clip = resolveUrl(this.director.sourceId, model.clip);
+                }
+            }
+        }
+    }
 
     evaluate(time: number) {
         if (!this.output) return;
