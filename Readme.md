@@ -19,7 +19,7 @@ Reference them in your Needle Engine Unity project to get started.
 3) Select <kbd>Add package from GIT url</kbd>
 4) Paste: 
    ```
-   git+https://github.com/needle-tools/needle-engine-modules?path=package
+   git+https://github.com/needle-tools/needle-engine-modules.git?path=package
    ```
 
 > **Note**: If you want to reference a specific commit or tag, you can use   
