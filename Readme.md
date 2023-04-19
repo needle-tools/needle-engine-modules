@@ -13,14 +13,12 @@ Reference them in your Needle Engine Unity project to get started.
 
 ## How to install 💽
 
-### [From github](https://docs.unity3d.com/Manual/upm-ui-giturl.html):
-1) Open ``Window > Package Manager``
+### [From github](https://docs.unity3d.com/Manual/upm-ui-giturl.html):  
+1) Open <kbd>Window > Package Manager</kbd>
 2) Click <kbd>+</kbd> in top left corner
 3) Select <kbd>Add package from GIT url</kbd>
-4) Paste: 
-   ```
-   git+https://github.com/needle-tools/needle-engine-modules.git?path=package
-   ```
+4) Paste this `git+https://github.com/needle-tools/needle-engine-modules.git?path=package`
+5) Click <kbd>Add</kbd>, Unity should now import the package
 
 > **Note**: If you want to reference a specific commit or tag, you can use   
   `git+https://github.com/needle-tools/needle-engine-modules.git?path=package#6005c22081f9a92eace8585fe0c3d87308593786`.
