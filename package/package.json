@@ -9,6 +9,9 @@
     "Runtime",
     "WebGL"
   ],
+  "dependencies": {
+    "com.needle.engine-exporter" : "2.67.18"
+  },
   "author": {
     "name": "Needle",
     "email": "hi@needle.tools",
