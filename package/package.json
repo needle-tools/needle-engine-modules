@@ -1,7 +1,7 @@
 {
   "displayName": "Needle Engine Modules",
   "name": "com.needle.engine-modules",
-  "version": "1.0.0-pre",
+  "version": "1.0.0-pre.1",
   "unity": "2020.3",
   "description": "Modules package for the Needle Engine",
   "keywords": [
