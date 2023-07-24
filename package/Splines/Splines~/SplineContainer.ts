@@ -33,8 +33,9 @@ export class SplineContainer extends Behaviour {
     @serializeable(Spline)
     spline: Spline[] | null = null;
 
-    @serializeable()
-    private editType: SplineType = SplineType.Bezier;
+    // @serializeable()
+    // private editType: SplineType = SplineType.CatmullRom;
+
     @serializeable()
     private closed: boolean = false;
 
@@ -72,20 +73,23 @@ export class SplineContainer extends Behaviour {
 
     private buildCurveNow() {
         if (this._builtCurve) return;
-
         this._builtCurve = true;
         if (!this.spline) return;
-        switch (this.editType) {
-            case 0:
-                this.createCatmullRomCurve();
-                break;
-            case 1:
-                this.createBezierCurve();
-                break;
-            case 2:
-                this.createLinearCurve();
-                break;
-        }
+        this.createCatmullRomCurve();
+        // TODO: Unity supports spline interpolation type per knot which we don't support right now. Additionally EditType is deprecated. For simplicity we're just supporting CatmullRom for now.
+        // switch (this.editType) {
+        //     case SplineType.CatmullRom:
+        //         this.createCatmullRomCurve();
+        //         break;
+        //     case SplineType.Bezier:
+        //         console.warn("Bezier spline not implemented yet", this.name);
+        //         this.createCatmullRomCurve();
+        //         // this.createBezierCurve();
+        //         break;
+        //     case SplineType.Linear:
+        //         this.createLinearCurve();
+        //         break;
+        // }
         this.buildDebugCurve();
     }
 
@@ -98,8 +102,6 @@ export class SplineContainer extends Behaviour {
 
     private createBezierCurve() {
         if (!this.spline) return;
-
-        console.warn("Bezier spline not implemented yet");
 
         for (let k = 0; k < this.spline.length; k++) {
             const k0 = this.spline[k];
@@ -116,8 +118,8 @@ export class SplineContainer extends Behaviour {
             const t0 = new Vector3(-k0.tangentOut.x, k0.tangentOut.y, k0.tangentOut.z);
             const t1 = new Vector3(-k1.tangentIn.x, k1.tangentIn.y, k1.tangentIn.z);
             // rotations
-            const q0 = k0.rotation;// new Quaternion(k0.rotation.value.x, k0.rotation.value.y, k0.rotation.value.z, k0.rotation.value.w);
-            const q1 = k1.rotation;// new Quaternion(k1.rotation.value.x, k1.rotation.value.y, k1.rotation.value.z, k1.rotation.value.w);
+            // const q0 = k0.rotation;// new Quaternion(k0.rotation.value.x, k0.rotation.value.y, k0.rotation.value.z, k0.rotation.value.w);
+            // const q1 = k1.rotation;// new Quaternion(k1.rotation.value.x, k1.rotation.value.y, k1.rotation.value.z, k1.rotation.value.w);
             // const a = new Vector3(0,1,0);
             // const angle = Math.PI*.5;
             // t0.sub(p0).applyQuaternion(q0).add(p0);
@@ -134,20 +136,24 @@ export class SplineContainer extends Behaviour {
         if (!this.spline) return;
         const points = this.spline.map(knot => new Vector3(-knot.position.x, knot.position.y, knot.position.z));
         if (this.closed) points.push(points[0]);
+        console.log(points);
         this._curve = new LineCurve3(points);
     }
 
     private buildDebugCurve() {
         if (debug && this.spline) {
             const material = new LineBasicMaterial({
-                color: 0x0000ff
+                color: 0x6600ff,
             });
             const res = this.spline.length * 10;
             // preview
             const splinePoints = this._curve.getPoints(res);
+            if(splinePoints.length >= 1) {
+                console.log("splinePoints", splinePoints[0], splinePoints)
+            }
             const geometry = new BufferGeometry().setFromPoints(splinePoints);
             this._debugLine = new Line(geometry, material);
-            this.gameObject.add(this._debugLine);
+            (this.gameObject as Object3D).add(this._debugLine);
         }
     }
 }
