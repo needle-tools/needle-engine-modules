@@ -1,7 +1,7 @@
 {
   "displayName": "Needle Engine Modules",
   "name": "com.needle.engine-modules",
-  "version": "1.0.0-pre.1",
+  "version": "1.0.1-pre",
   "unity": "2020.3",
   "description": "Modules package for the Needle Engine",
   "keywords": [
@@ -10,7 +10,7 @@
     "WebGL"
   ],
   "dependencies": {
-    "com.needle.engine-exporter" : "2.67.18"
+    "com.needle.engine-exporter" : "3.10.3-beta"
   },
   "author": {
     "name": "Needle",
