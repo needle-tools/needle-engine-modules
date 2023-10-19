@@ -37,11 +37,11 @@ export class CameraTracker {
 
         camera.matrixWorld.decompose(tempPos, tempQuat, tempScale);
 
-        if (tempPos.distanceTo(this._previousPosition) > 0.05) {
+        if (tempPos.distanceTo(this._previousPosition) > 0.0005) {
             this.copy(camera, tempPos, tempQuat);
             return true;
         }
-        else if (tempQuat.angleTo(this._previousQuaternion) > 0.01) {
+        else if (tempQuat.angleTo(this._previousQuaternion) > 0.0005) {
             this.copy(camera, tempPos, tempQuat);
             return true;
         }
