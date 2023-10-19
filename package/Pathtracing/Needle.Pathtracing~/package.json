@@ -3,12 +3,12 @@
   "version": "1.1.2-pre",
   "main": "index.ts",
   "dependencies": {
-    "three-gpu-pathtracer": "^0.0.14",
-    "three-mesh-bvh": "^0.5.23"
+    "three-gpu-pathtracer": "^0.0.16",
+    "three-mesh-bvh": "^0.6.8"
   },
   "devDependencies": {
-    "@needle-tools/engine": "../../../Library/PackageCache/com.needle.engine@2.66.1-pre/package~",
-    "three": "../../../Library/PackageCache/com.needle.engine@2.66.1-pre/package~/node_modules/three"
+    "@needle-tools/engine": "^3.21.0-alpha",
+    "three": "npm:@needle-tools/three@^0.154.3"
   },
   "publishConfig": {
     "access": "public"

@@ -13,6 +13,7 @@ namespace Needle.Typescript.GeneratedComponents
 		public void OnEnable(){}
 		public void OnDisable(){}
 		public void onBeforeRender(object @_frame){}
+		public void dispatchMessage(string @message){}
 	}
 }
 
