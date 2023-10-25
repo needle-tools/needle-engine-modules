@@ -36,7 +36,7 @@ export class Pathtracing extends Behaviour {
     awake() {
 
         this.params = {
-            multipleImportanceSampling: true,
+            multipleImportanceSampling: false,
             acesToneMapping: true,
             resolutionScale: 1 / window.devicePixelRatio,
             tilesX: 2,
@@ -49,7 +49,7 @@ export class Pathtracing extends Behaviour {
             gradientBottom: '#ffffff',
 
             environmentIntensity: 1.0,
-            environmentBlur: 0,
+            environmentBlur: 1.0,
             environmentRotation: 0,
 
             cameraProjection: 'Perspective',
@@ -250,6 +250,7 @@ export class Pathtracing extends Behaviour {
             ptRenderer.material.materials.updateFrom(this.sceneInfo.materials, this.sceneInfo.textures);
             ptRenderer.material.filterGlossyFactor = params.filterGlossyFactor;
             ptRenderer.material.environmentIntensity = params.environmentIntensity;
+            ptRenderer.material.environmentBlur = params.environmentBlur;
             ptRenderer.material.bounces = params.bounces;
             ptRenderer.material.physicalCamera.updateFrom(activeCamera);
             ptRenderer.camera = activeCamera;
