@@ -7,7 +7,7 @@ import {
 } from 'three-gpu-pathtracer';
 import { PathTracingSceneWorker } from 'three-gpu-pathtracer/src/workers/PathTracingSceneWorker.js';
 
-import { MeshBasicMaterial, CustomBlending, Object3D, DoubleSide } from 'three';
+import { MeshBasicMaterial, CustomBlending, Object3D, DoubleSide, PerspectiveCamera, MeshPhysicalMaterial } from 'three';
 import { FullScreenQuad } from 'three/examples/jsm/postprocessing/Pass.js';
 
 import { CameraTracker } from './CameraTracker';
@@ -20,7 +20,7 @@ export class Pathtracing extends Behaviour {
     useWorker: boolean = true;
 
     private ptRenderer: PathTracingRenderer;
-    private fsQuad: FullScreenQuad;
+    private fsQuad?: FullScreenQuad;
     private params: any;
     private delaySamples: number = 0;
     private sceneInfo: any;
@@ -142,7 +142,7 @@ export class Pathtracing extends Behaviour {
 
     private _lastTimeChanged: number = 0;
     onBeforeRender(_frame: XRFrame | null): void {
-        if (this._cameraTracker.testChanged(this.context.mainCamera)) {
+        if (this._cameraTracker.testChanged(this.context.mainCamera as PerspectiveCamera)) {
             this._lastTimeChanged = this.context.time.realtimeSinceStartup;
         }
         if (this._lastTimeChanged !== 0 && this.context.time.realtimeSinceStartup - this._lastTimeChanged < 0.1) {
@@ -162,10 +162,13 @@ export class Pathtracing extends Behaviour {
         const scene = this.context.scene;
 
         model.traverse(c => {
-            if (c.material) {
+            if (!("material" in c)) return;
+            if (c.material instanceof MeshBasicMaterial) {
+                c.material.side = DoubleSide;
+            }
+            if (c.material instanceof MeshPhysicalMaterial) {
                 // set the thickness so we render the material as a volumetric object
                 c.material.thickness = 1.0;
-                c.material.side = DoubleSide;
             }
         });
 
@@ -224,7 +227,7 @@ export class Pathtracing extends Behaviour {
     }
 
     private _update() {
-        if (!this.enableRendering)
+        if (!this.enableRendering || !this.fsQuad)
             return;
 
         const ptRenderer = this.ptRenderer;

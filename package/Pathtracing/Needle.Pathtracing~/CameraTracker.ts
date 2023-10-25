@@ -1,4 +1,4 @@
-import { Camera, Matrix4, Vector3, Quaternion } from "three";
+import { Vector3, Quaternion, PerspectiveCamera } from "three";
 
 const tempPos = new Vector3();
 const tempQuat = new Quaternion();
@@ -6,14 +6,14 @@ const tempScale = new Vector3();
 
 export class CameraTracker {
 
-    private _camera: Camera;
+    private _camera?: PerspectiveCamera;
     private _previousPosition = new Vector3();
     private _previousQuaternion = new Quaternion();
     private _previousNear = 0;
     private _previousFar = 0;
     private _previousFov = 0;
 
-    testChanged(camera: Camera): boolean {
+    testChanged(camera: PerspectiveCamera): boolean {
 
         if (this._camera !== camera) {
             this._camera = camera;
@@ -50,7 +50,7 @@ export class CameraTracker {
 
     }
 
-    private copy(cam: Camera, pos?: Vector3, quat?: Quaternion) {
+    private copy(cam: PerspectiveCamera, pos?: Vector3, quat?: Quaternion) {
         this._camera = cam;
         if (!pos || !quat)
             cam.matrixWorld.decompose(this._previousPosition, this._previousQuaternion, tempScale);
