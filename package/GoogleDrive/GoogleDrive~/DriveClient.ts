@@ -1,5 +1,4 @@
 import { Behaviour } from "@needle-tools/engine";
-import { KeyCode } from "@needle-tools/engine/engine/engine_input";
 
 import { DriveApi } from "./DriveApi";
 import { DriveFileAccess } from "./DriveFileAccess";
@@ -163,10 +162,15 @@ export class DriveClient extends Behaviour {
         }
     }
 
+    private handleSignoutClick() {
+        if (!this._api) return;
+        this.tokenClient.signOut();    
+    }
+
     private currentCancellationToken?: FileCancellation;
 
     update() {
-        if (this.context.input.isKeyDown(KeyCode.ESCAPE)) {
+        if (this.context.input.isKeyDown("Escape")) {
             this.currentCancellationToken?.cancel();
             this.currentCancellationToken = undefined;
         }

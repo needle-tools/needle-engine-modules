@@ -34,6 +34,17 @@ export class DriveApi {
         return typeof token === "string";
     }
 
+    logOut() {
+        const token = this.gapi.client.getToken();
+        if (token !== null) {
+          this.google.accounts.oauth2.revoke(token.access_token);
+          this.gapi.client.setToken('');
+          // document.getElementById('content').innerText = '';
+          // document.getElementById('authorize_button').innerText = 'Authorize';
+          // document.getElementById('signout_button').style.visibility = 'hidden';
+        }
+    }
+
     private _userInfo?: UserInfo;
 
     async getUserInfo(): Promise<UserInfo> {

@@ -1,6 +1,6 @@
-import { GameObject } from "@needle-tools/engine/engine-components/Component";
-import { IModel, RoomEvents, UserJoinedOrLeftRoomModel } from "@needle-tools/engine/engine/engine_networking";
-import { InstantiateIdProvider } from "@needle-tools/engine/engine/engine_networking_instantiate";
+import { GameObject } from "@needle-tools/engine";
+import { IModel, RoomEvents, UserJoinedOrLeftRoomModel } from "@needle-tools/engine";
+import { InstantiateIdProvider } from "@needle-tools/engine";
 import { UserInfo } from "../DriveApi";
 import { DriveClient } from "../DriveClient";
 import { LoadedGLTF } from "../DriveFileAccess";

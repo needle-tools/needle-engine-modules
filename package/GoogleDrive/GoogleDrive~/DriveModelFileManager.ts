@@ -1,7 +1,7 @@
 import { GameObject, SyncedTransform } from "@needle-tools/engine";
-import { onDynamicObjectAdded } from "@needle-tools/engine/engine/engine_networking_files_default_components";
-import { tryFindObject } from "@needle-tools/engine/engine/engine_utils";
-import { Context } from "@needle-tools/engine/engine/engine_setup";
+// import { onDynamicObjectAdded } from "@needle-tools/engine";
+import { tryFindObject } from "@needle-tools/engine";
+import { Context } from "@needle-tools/engine";
 
 import { Box3, BoxGeometry, BoxHelper, Color, Mesh, MeshBasicMaterial, MeshNormalMaterial, Object3D, Vector3 } from "three";
 
@@ -62,7 +62,7 @@ export class DriveModelFileManager {
 
     private postProcessFile(root: Object3D, file: LoadedGLTF) {
         if (file.idProvider) {
-            onDynamicObjectAdded(root, file.idProvider);
+            // onDynamicObjectAdded(root, file.idProvider);
         }
 
         const st = GameObject.getComponentsInChildren(root, SyncedTransform);

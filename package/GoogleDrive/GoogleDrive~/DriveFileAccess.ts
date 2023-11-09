@@ -1,12 +1,10 @@
-import { parseSync } from "@needle-tools/engine/engine/engine_scenetools";
-import { InstantiateIdProvider } from "@needle-tools/engine/engine/engine_networking_instantiate";
-import { getParam } from "@needle-tools/engine/engine/engine_utils";
-import { NEEDLE_KHR_ANIMATION_POINTER_NAME } from "@needle-tools/engine/engine/extensions/KHR_animation_pointer";
-import { NEEDLE_persistent_assets } from "@needle-tools/engine/engine/extensions/NEEDLE_persistent_assets";
+import { parseSync } from "@needle-tools/engine";
+import { InstantiateIdProvider } from "@needle-tools/engine";
+import { getParam } from "@needle-tools/engine";
 
 import { BaseApiProvider } from "./BaseApiProvider";
 import { DriveClient } from "./DriveClient";
-import { GLTF } from "three/examples/js/loaders/GLTFLoader";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { FileCancellation } from "./FileCancellation";
 
 const debug = getParam("debugdrive");

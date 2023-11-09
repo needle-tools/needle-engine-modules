@@ -3,7 +3,7 @@
 // otherwise it will add them
 // once loaded the init callback is invoked
 
-import { getParam } from "@needle-tools/engine/engine/engine_utils";
+import { getParam } from "@needle-tools/engine";
 
 const debug = getParam("debug")
 
