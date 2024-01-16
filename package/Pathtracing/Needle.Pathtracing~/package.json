@@ -3,8 +3,8 @@
   "version": "1.1.2-pre",
   "main": "index.ts",
   "dependencies": {
-    "three-gpu-pathtracer": "^0.0.16",
-    "three-mesh-bvh": "^0.6.8"
+    "three-gpu-pathtracer": "file:H:/git/three-gpu-pathtracer",
+    "three-mesh-bvh": "^0.7.0"
   },
   "devDependencies": {
     "@needle-tools/engine": "^3.21.0-alpha",
