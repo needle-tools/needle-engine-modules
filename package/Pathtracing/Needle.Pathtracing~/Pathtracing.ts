@@ -4,6 +4,7 @@ import {
     PathTracingRenderer,
     PhysicalPathTracingMaterial,
     MaterialReducer,
+    BlurredEnvMapGenerator,
 } from 'three-gpu-pathtracer';
 import { PathTracingSceneWorker } from 'three-gpu-pathtracer/src/workers/PathTracingSceneWorker.js';
 
@@ -36,7 +37,7 @@ export class Pathtracing extends Behaviour {
     awake() {
 
         this.params = {
-            multipleImportanceSampling: false,
+            multipleImportanceSampling: true,
             acesToneMapping: true,
             resolutionScale: 1 / window.devicePixelRatio,
             tilesX: 2,
@@ -129,10 +130,28 @@ export class Pathtracing extends Behaviour {
         ptRenderer.reset();
     }
 
+    envMapGenerator?: BlurredEnvMapGenerator;
+
     async onEnable() {
         console.log(this.ptRenderer);
         this.onResize();
-        this.ptRenderer.material.envMapInfo.updateFrom(this.context.scene.environment);
+
+        // blurry env map
+        this.envMapGenerator = new BlurredEnvMapGenerator(this.context.renderer);
+        
+        const blurredEnvMap = this.envMapGenerator.generate( this.context.scene.environment, this.context.scene.backgroundBlurriness );
+        this.ptRenderer.material.envMapInfo.updateFrom(blurredEnvMap);
+        const getEnvIntensity = () => {
+            let intensity: number | undefined = undefined;
+            this.gameObject.traverse(c => {
+                if (c.isMesh) {
+                    intensity = c.material.envMapIntensity;
+                }
+            });
+            return intensity !== undefined ? intensity : 1.0;
+        }
+        const envIntensity = getEnvIntensity();
+		this.params.environmentIntensity = envIntensity;
         this.updateModel(this.gameObject);
     }
 
@@ -157,7 +176,51 @@ export class Pathtracing extends Behaviour {
         }}));
     }
 
+    private lastHash: number = 0;
     private async updateModel(model: Object3D) {
+        // we want to know when ANYTHING in the model has changed
+        // any material parameter, any name, ...
+        // so we traverse the model and calculate a hash from all the data
+        // this hash is used to check if the model has changed
+
+        const hashStringToInt = (str: string) => {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash += str.charCodeAt(i);
+            }
+            return hash;
+        }
+
+        const calculateHash = (model: Object3D) => {
+            let hash = 0;
+            model.traverse(c => {
+                hash += c.id;
+                hash += hashStringToInt(c.name);
+                hash += hashStringToInt(c.uuid);
+                if (!("material" in c)) return;
+                const m = c.material;
+                if (m instanceof MeshBasicMaterial) {
+                    hash += m.color.r + m.color.g + m.color.b;
+                }
+                if (m instanceof MeshPhysicalMaterial) {
+                    hash += m.color.r + m.color.g + m.color.b;
+                    hash += m.roughness + m.metalness;
+                }
+                // hash matrix
+                for (let i = 0; i < 16; i++) {
+                    hash += c.matrix.elements[i];
+                }
+            });
+            return hash;
+        }
+
+        const hash = calculateHash(model);
+        if (hash === this.lastHash) {
+            this.enableRendering = true;
+            return; 
+        }
+        this.lastHash = hash;
+
         const renderer = this.context.renderer;
         const scene = this.context.scene;
 
@@ -186,7 +249,7 @@ export class Pathtracing extends Behaviour {
             result = await generator.generate(model, {
                 onProgress: v => {
                     const percent = Math.floor(100 * v);
-                    console.log(`Building BVH : ${percent}%`);
+                    // console.log(`Building BVH : ${percent}%`);
                     this.dispatchMessage(`Building BVH : ${percent}%`);
                 }
             });
