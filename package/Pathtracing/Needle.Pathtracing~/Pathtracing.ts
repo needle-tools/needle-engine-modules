@@ -8,7 +8,7 @@ import {
 } from 'three-gpu-pathtracer';
 import { PathTracingSceneWorker } from 'three-gpu-pathtracer/src/workers/PathTracingSceneWorker.js';
 
-import { MeshBasicMaterial, CustomBlending, Object3D, DoubleSide, PerspectiveCamera, MeshPhysicalMaterial } from 'three';
+import { MeshBasicMaterial, CustomBlending, Object3D, DoubleSide, PerspectiveCamera, MeshPhysicalMaterial, Mesh, MeshStandardMaterial } from 'three';
 import { FullScreenQuad } from 'three/examples/jsm/postprocessing/Pass.js';
 
 import { CameraTracker } from './CameraTracker';
@@ -144,7 +144,7 @@ export class Pathtracing extends Behaviour {
         const getEnvIntensity = () => {
             let intensity: number | undefined = undefined;
             this.gameObject.traverse(c => {
-                if (c.isMesh) {
+                if (c instanceof Mesh && c.material instanceof MeshStandardMaterial) {
                     intensity = c.material.envMapIntensity;
                 }
             });
