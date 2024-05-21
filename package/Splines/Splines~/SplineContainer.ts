@@ -1,4 +1,4 @@
-import { Behaviour } from "@needle-tools/engine";
+import { Behaviour, getWorldPosition } from "@needle-tools/engine";
 import { Mathf } from "@needle-tools/engine";
 import { serializeable } from "@needle-tools/engine";
 import { getWorldQuaternion } from "@needle-tools/engine";
@@ -51,7 +51,15 @@ export class SplineContainer extends Behaviour {
     }
 
     public getPointAt(t: number, target?: Vector3): Vector3 {
-        return this.curve?.getPointAt(Mathf.clamp01(t), target).applyMatrix4(this.gameObject.matrixWorld);
+        if (!this.curve) return new Vector3();
+
+        const pos = this.curve.getPointAt(Mathf.clamp01(t), target);
+        const worldMatrix = (this.gameObject as any as Object3D)?.matrixWorld ?? undefined;
+
+        if (worldMatrix)
+            pos.applyMatrix4(worldMatrix); 
+
+        return pos;
     }
 
     public getTangentAt(t: number, target?: Vector3): Vector3 {
@@ -136,8 +144,7 @@ export class SplineContainer extends Behaviour {
         if (!this.spline) return;
         const points = this.spline.map(knot => new Vector3(-knot.position.x, knot.position.y, knot.position.z));
         if (this.closed) points.push(points[0]);
-        console.log(points);
-        this._curve = new LineCurve3(points);
+        this._curve = new LineCurve3(points.at(0), points.at(1));
     }
 
     private buildDebugCurve() {
@@ -147,13 +154,14 @@ export class SplineContainer extends Behaviour {
             });
             const res = this.spline.length * 10;
             // preview
+            if (!this._curve) return;
             const splinePoints = this._curve.getPoints(res);
             if(splinePoints.length >= 1) {
                 console.log("splinePoints", splinePoints[0], splinePoints)
             }
             const geometry = new BufferGeometry().setFromPoints(splinePoints);
             this._debugLine = new Line(geometry, material);
-            (this.gameObject as Object3D).add(this._debugLine);
+            (this.gameObject as any as Object3D)?.add(this._debugLine);
         }
     }
 }

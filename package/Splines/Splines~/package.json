@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "dependencies": {},
   "peerDependencies": {
-    "@needle-tools/engine": ">= 1.0.0-pre",
-    "three": "^0.130"
-  },
+	  "@needle-tools/engine": "^3.37.12-alpha",
+	  "three": "npm:@needle-tools/three@^0.162.3"
+	},
   "devDependencies": {
-	  "@needle-tools/engine": "^3.10.3-beta",
-	  "three": "npm:@needle-tools/three@^0.154.1"
+	  "@needle-tools/engine": "^3.37.12-alpha",
+	  "three": "npm:@needle-tools/three@^0.162.3"
 	}
 }

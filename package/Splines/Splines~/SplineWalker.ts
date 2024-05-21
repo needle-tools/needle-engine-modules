@@ -1,6 +1,6 @@
 import { Behaviour, GameObject } from "@needle-tools/engine";
-import { Mathf } from "@needle-tools/engine/src/engine/engine_math";
-import { serializeable } from "@needle-tools/engine/src/engine/engine_serialization_decorator";
+import { Mathf } from "@needle-tools/engine";
+import { serializeable } from "@needle-tools/engine";
 import { getWorldPosition, setWorldPosition } from "@needle-tools/engine/src/engine/engine_three_utils";
 
 import { Object3D } from "three"
@@ -14,6 +14,8 @@ export class SplineWalker extends Behaviour {
     spline: SplineContainer | null = null;
     @serializeable(Object3D)
     object?: Object3D;
+
+    // @type float
     @serializeable()
     get position01(): number {
         return this._position01;
@@ -22,6 +24,7 @@ export class SplineWalker extends Behaviour {
         this._position01 = v;
         this.updateFromPosition();
     }
+
     @serializeable(Object3D)
     lookAt: Object3D | null = null;
     @serializeable()
