@@ -139,19 +139,10 @@ export class Pathtracing extends Behaviour {
         // blurry env map
         this.envMapGenerator = new BlurredEnvMapGenerator(this.context.renderer);
         
-        const blurredEnvMap = this.envMapGenerator.generate( this.context.scene.environment, this.context.scene.backgroundBlurriness );
+        const blurredEnvMap = this.envMapGenerator.generate( this.context.scene.environment, 0 );
         this.ptRenderer.material.envMapInfo.updateFrom(blurredEnvMap);
-        const getEnvIntensity = () => {
-            let intensity: number | undefined = undefined;
-            this.gameObject.traverse(c => {
-                if (c instanceof Mesh && c.material instanceof MeshStandardMaterial) {
-                    intensity = c.material.envMapIntensity;
-                }
-            });
-            return intensity !== undefined ? intensity : 1.0;
-        }
-        const envIntensity = getEnvIntensity();
-		this.params.environmentIntensity = envIntensity;
+		this.params.environmentIntensity = this.context.scene.environmentIntensity;
+        this.params.environmentBlur = 1.0;
         this.updateModel(this.gameObject);
     }
 
