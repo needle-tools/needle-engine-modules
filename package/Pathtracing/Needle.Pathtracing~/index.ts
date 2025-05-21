@@ -1,1 +1,1 @@
-export * from "./Pathtracing"
+export * from "./Pathtracing.js"

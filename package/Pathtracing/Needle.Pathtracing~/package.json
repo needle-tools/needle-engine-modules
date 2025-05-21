@@ -1,6 +1,6 @@
 {
   "name": "@needle-tools/pathtracing",
-  "version": "1.1.2-pre",
+  "version": "1.2.0-beta",
   "main": "index.ts",
   "dependencies": {
     "three-gpu-pathtracer": "0.0.17",
@@ -11,6 +11,7 @@
     "three": "npm:@needle-tools/three@>=0.154.3"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
